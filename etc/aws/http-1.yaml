@@ -17,13 +17,6 @@ Metadata:
     ParameterGroups:
       -
         Label:
-          default: Cluster Common Configuration
-        Parameters:
-          - BranchDockerAWS
-          - NodeInstallUrlPath
-          - NodeInstallUrlFile
-      -
-        Label:
           default: Cluster Master Configuration
         Parameters:
           - InstanceMasterImageId
@@ -66,16 +59,11 @@ Metadata:
         Label:
           default: Security
         Parameters:
-          - Identifier
           - KeyName
           
     ParameterLabels:
-      BranchDockerAWS:
-        default: The branch of the git repo to download the script for the common install of the nodes
       HostedZoneName:
         default: The name of the hosted zone that you want to create records in
-      Identifier:
-        default: The Identifier of the certificate you want to use
       InstanceMasterImageId:
         default: AMI to use for Cluster Master Instances
       InstanceMasterInstanceType:
@@ -90,10 +78,6 @@ Metadata:
         default: The name of the key pair
       HttpCodeTargetGroupWorker1:
         default: The HTTP codes to use when checking for a successful response from Worker Group 1
-      NodeInstallUrlPath:
-        default: The URL path to download the script for the common install of the nodes
-      NodeInstallUrlFile:
-        default: The name of the script for the common install of the nodes
       PortListenerWorker1:
         default: The listening port for Listener Worker 1
       PortListenerWorker1QA:
@@ -139,22 +123,10 @@ Metadata:
                 
 Parameters:
 
-  BranchDockerAWS:
-    Default: ""
-    Description: >
-      The branch of the git repo to download the script for the common install of the nodes.
-    Type: String
-    
   HostedZoneName:
     Default: ''
     Description: >
       The name of the hosted zone that you want to create records in.
-    Type: String
-
-  Identifier:
-    Default: ''
-    Description: >
-      The Identifier of the certificate you want to use.
     Type: String
 
   InstanceMasterImageId:
@@ -201,18 +173,6 @@ Parameters:
     Default: "200-399"
     Description: >
       The HTTP codes to use when checking for a successful response from Worker Group 1.
-    Type: String
-    
-  NodeInstallUrlPath:
-    Default: ""
-    Description: >
-      The URL path to download the script for the common install of the nodes.
-    Type: String
-    
-  NodeInstallUrlFile:
-    Default: bin/aws-node-ami.sh
-    Description: >
-      The name of the script for the common install of the nodes.
     Type: String
     
   PortListenerWorker1:
@@ -384,7 +344,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
             
   InstanceMaster2:
@@ -402,7 +361,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
 
   InstanceMaster3:
@@ -420,7 +378,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
 
   InstanceProfile:
@@ -440,7 +397,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
 
   InstanceWorker2:
@@ -455,7 +411,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
 
   InstanceWorker3:
@@ -470,7 +425,6 @@ Resources:
           !Sub |
             #!/bin/sh
             cd /tmp && curl https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm && sudo yum install -y amazon-ssm-agent.rpm
-            sudo yum install --assumeyes git && git clone --single-branch --branch ${BranchDockerAWS} ${NodeInstallUrlPath} GitRepository && chmod +x GitRepository/${NodeInstallUrlFile} && ./GitRepository/${NodeInstallUrlFile} && rm --force --recursive GitRepository
     Type: AWS::EC2::Instance
 
   InternetGateway:
