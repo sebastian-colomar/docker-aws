@@ -124,7 +124,7 @@ Metadata:
 Parameters:
 
   HostedZoneName:
-    Default: ''
+    Default: 'sebastian-colomar.com'
     Description: >
       The name of the hosted zone that you want to create records in.
     Type: String
@@ -138,7 +138,7 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     
   InstanceMasterInstanceType:
-    Default: ''
+    Default: 't3a.nano'
     Description: >
       Select Amazon EC2 instance type for the Cluster Master instances.
     Type: String
@@ -152,7 +152,7 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     
   InstanceWorkerInstanceType:
-    Default: ''
+    Default: 't3a.nano'
     Description: >
       Select Amazon EC2 instance type for the Cluster Worker instances.
     Type: String
@@ -164,7 +164,7 @@ Parameters:
     Type: String
     
   KeyName:
-    Default: ''
+    Default: 'cloud9_mumbai_mgmt'
     Description: >
       The name of the key pair. You can create a key pair using CreateKeyPair or ImportKeyPair.
     Type: String
@@ -230,7 +230,7 @@ Parameters:
     Type: String
     
   RecordSetNameKube:
-    Default: ''
+    Default: 'kube-apiserver'
     Description: >
       The name of the Record Set for service 1.
     Type: String
