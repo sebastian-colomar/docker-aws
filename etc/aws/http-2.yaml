@@ -490,7 +490,6 @@ Resources:
       SecurityGroups:
         - !GetAtt VPC.DefaultSecurityGroup
         - !Ref SecurityGroupWorker1
-        - !Ref SecurityGroupWorker1QA
       Subnets: 
         - !Ref SubnetPublic1
         - !Ref SubnetPublic2
@@ -502,7 +501,6 @@ Resources:
       SecurityGroups:
         - !GetAtt VPC.DefaultSecurityGroup
         - !Ref SecurityGroupWorker2
-        - !Ref SecurityGroupWorker2QA
       Subnets: 
         - !Ref SubnetPublic1
         - !Ref SubnetPublic2
