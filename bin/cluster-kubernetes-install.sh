@@ -6,11 +6,6 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-test -n "$A" 		        || exit 100                             ;
-test -n "$branch_docker_aws"	|| exit 100                             ;
-test -n "$debug" 		|| exit 100                             ;
-test -n "$domain"               || exit 100                             ;
-#########################################################################
 file=kubernetes.repo							;
 repos=yum.repos.d							;
 #########################################################################
@@ -19,21 +14,21 @@ uuid=$( uuidgen )							;
 path=$uuid/etc/$repos							;
 #########################################################################
 git clone                                                               \
-        --single-branch --branch $branch_docker_aws                     \
-        https://$domain/$A                                              \
+        --single-branch --branch manual                                 \
+        https://github.com/secobau/docker-aws                           \
         $uuid                                                           \
                                                                         ;
-mv $path/$file /etc/$repos/$file					;
+sudo mv $path/$file /etc/$repos/$file					;
 rm --recursive --force $uuid						;
 #########################################################################
-yum install								\
+sudo yum install							\
 	--assumeyes							\
 	--disableexcludes=kubernetes					\
 	kubelet-1.18.4-1						\
 	kubeadm-1.18.4-1						\
 	kubectl-1.18.4-1						\
 									;
-systemctl enable							\
+sudo systemctl enable							\
 	--now								\
 	kubelet								\
 									;
