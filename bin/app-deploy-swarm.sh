@@ -1,10 +1,10 @@
 #!/bin/bash -x
-#	./bin/app-deploy-swarm.sh
+#        ./bin/app-deploy-swarm.sh
 #########################################################################
 #      Copyright (C) 2020        Sebastian Francisco Colomar Bauza      #
 #      SPDX-License-Identifier:  GPL-2.0-only                           #
 #########################################################################
-set +x && test "$debug" = true && set -x 				;
+set +x && test "$debug" = true && set -x                                ;
 #########################################################################
 apps="                                                                  \
         php.yaml                                                        \
