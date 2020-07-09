@@ -20,7 +20,7 @@ git clone                                                               \
         $uuid                                                           ;
 sed --in-place s/worker/manager/ $uuid/$compose                         ;
 sudo cp --recursive --verbose $uuid/run/* /run                          ;
-docker swarm init                                                       ;
+sudo docker swarm init                                                  ;
 sudo docker stack deploy --compose-file $uuid/$compose nlb              ;
 while true                                                              ;
 do                                                                      \
