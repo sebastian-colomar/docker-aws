@@ -22,6 +22,7 @@ sed --in-place s/worker/manager/ $uuid/$compose                         ;
 sudo cp --recursive --verbose $uuid/run/* /run                          ;
 sudo docker swarm init                                                  ;
 sudo docker stack deploy --compose-file $uuid/$compose nlb              ;
+rm --recursive --force $uuid                                            ;
 while true                                                              ;
 do                                                                      \
   sleep 1                                                               ;
