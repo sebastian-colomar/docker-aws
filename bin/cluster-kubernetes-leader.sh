@@ -9,6 +9,7 @@ set +x && test "$debug" = true && set -x				;
 ip_leader=10.168.1.100                                                  ;
 kube=kube-apiserver                                                     ;
 log=/tmp/kubernetes-install.log                              		;
+sleep=10                                                                ;
 #########################################################################
 calico=https://docs.projectcalico.org/v3.14/manifests			;
 cidr=192.168.0.0/16							;
@@ -57,4 +58,25 @@ echo									\
 |									\
 tee --append $HOME/.bashrc						\
 									;
+#########################################################################
+while true								;
+do									\
+  kubectl get node							\
+    --kubeconfig $kubeconfig						\
+  |									\
+  grep Ready								\
+  |									\
+  grep --invert-match NotReady						\
+  &&									\
+  break									\
+									;
+  sleep $sleep								;
+done									;
+#########################################################################
+sudo sed --in-place 							\
+	/$kube/d 							\
+	/etc/hosts   		                                  	;
+sudo sed --in-place 							\
+	/localhost4/s/$/' '$kube/ 					\
+	/etc/hosts          				             	;
 #########################################################################
