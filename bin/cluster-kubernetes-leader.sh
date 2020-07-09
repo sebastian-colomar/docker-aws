@@ -61,16 +61,16 @@ tee --append $HOME/.bashrc						\
 #########################################################################
 while true								;
 do									\
-  kubectl get node							\
-    --kubeconfig $kubeconfig						\
-  |									\
-  grep Ready								\
-  |									\
-  grep --invert-match NotReady						\
-  &&									\
-  break									\
+	kubectl get node						\
+		--kubeconfig $kubeconfig				\
+	|								\
+	grep Ready							\
+	|								\
+	grep --invert-match NotReady					\
+	&&								\
+	break								\
 									;
-  sleep $sleep								;
+	sleep $sleep							;
 done									;
 #########################################################################
 sudo sed --in-place 							\
