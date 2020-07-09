@@ -50,7 +50,6 @@ done                                                                    ;
 #########################################################################
 while true                                                              ;
 do                                                                      \
-        sleep 10                                                        ;
         sudo $token_token                                               \
                 $token_discovery                                        \
                 $token_certificate                                      \
@@ -61,6 +60,7 @@ do                                                                      \
         tee $log                                                        \
                                                                         ;
         grep 'This node has joined the cluster' $log && break           ;
+        sleep 10                                                        ;
 done                                                                    ;
 #########################################################################
 mkdir -p $HOME/.kube                                                    ;
