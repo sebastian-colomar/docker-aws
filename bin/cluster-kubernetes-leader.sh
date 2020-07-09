@@ -126,7 +126,7 @@ token_token=$(                                                          \
 #########################################################################
 echo YOU WILL NEED THE FOLLOWING TOKENS TO COMPLETE THE INSTALL         ;
 echo FIRST IN THE MASTERS AND THEN IN THE WORKERS                       ;
-echo token_certificate=$token_certificate                               ;
-echo token_discovery=$token_discovery                                   ;
-echo token_token=$token_token                                           ;
+echo export token_certificate=$token_certificate                        ;
+echo export token_discovery=$token_discovery                            ;
+echo export token_token=$token_token                                    ;
 #########################################################################
