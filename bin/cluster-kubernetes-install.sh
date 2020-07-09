@@ -13,10 +13,6 @@ uuid=/tmp/$( uuidgen )							;
 #########################################################################
 path=$uuid/etc/$repos							;
 #########################################################################
-sudo yum install                                                        \
-        --assumeyes                                                     \
-        git                                                             \
-                                                                        ;
 git clone                                                               \
         --single-branch --branch manual                                 \
         https://github.com/secobau/docker-aws                           \
@@ -37,3 +33,6 @@ sudo systemctl enable                                                   \
         kubelet                                                         \
                                                                         ;
 #########################################################################
+
+
+
