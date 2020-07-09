@@ -14,11 +14,11 @@ token_worker="                                                          \
 echo $token_worker                                                      ;
 echo RUN THIS TOKEN IN THE WORKERS                                      ;
 #########################################################################
-token_manager="								\
-  $(									\
-    sudo docker swarm join-token manager 2> /dev/null | grep token 		\
-  )									\
-"									;
-echo $token_manager                                                     ;
+token_master="                                                          \
+  $(                                                                    \
+    sudo docker swarm join-token manager 2> /dev/null | grep token      \
+  )                                                                     \
+"                                                                       ;
+echo $token_master                                                      ;
 echo RUN THIS TOKEN IN THE MASTERS                                      ;
 #########################################################################
