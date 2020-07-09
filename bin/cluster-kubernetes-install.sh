@@ -6,7 +6,7 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-file=kubernetes.repo							;
+file=kubernetes.repo                                                    ;
 repos=yum.repos.d							;
 #########################################################################
 uuid=$( uuidgen )							;
@@ -21,15 +21,15 @@ git clone                                                               \
 sudo mv $path/$file /etc/$repos/$file					;
 rm --recursive --force $uuid						;
 #########################################################################
-sudo yum install							\
-	--assumeyes							\
-	--disableexcludes=kubernetes					\
-	kubelet-1.18.4-1						\
-	kubeadm-1.18.4-1						\
-	kubectl-1.18.4-1						\
+sudo yum install                                                        \
+	--assumeyes                                                     \
+	--disableexcludes=kubernetes                                    \
+	kubelet-1.18.4-1                                                \
+	kubeadm-1.18.4-1                                                \
+	kubectl-1.18.4-1                                                \
 									;
-sudo systemctl enable							\
-	--now								\
-	kubelet								\
+sudo systemctl enable                                                   \
+	--now                                                           \
+	kubelet                                                         \
 									;
 #########################################################################
