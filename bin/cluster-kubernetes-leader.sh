@@ -15,22 +15,6 @@ calico=https://docs.projectcalico.org/v3.14/manifests                   ;
 cidr=192.168.0.0/16                                                     ;
 kubeconfig=/etc/kubernetes/admin.conf                                   ;
 #########################################################################
-compose=etc/docker/swarm/docker-compose.yaml                            ;
-uuid=/tmp/$( uuidgen )                                                  ;
-#########################################################################
-git clone                                                               \
-        --single-branch --branch v1.1                                   \
-        https://github.com/secobau/nlb                                  \
-        $uuid                                                           ;
-sudo cp --recursive --verbose $uuid/run/* /run                          ;
-sudo docker stack deploy --compose-file $uuid/$compose nlb              ;
-while true                                                              ;
-do                                                                      \
-  sleep 1                                                               ;
-  sudo docker service ls | grep '\([0-9]\)/\1' && break                 ;
-done                                                                    ;
-sudo rm --recursive --force /run/secrets /run/configs                   ;
-#########################################################################
 while true                                                              ;
 do                                                                      \
         sudo systemctl                                                  \
