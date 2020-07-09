@@ -12,7 +12,7 @@ sudo systemctl enable docker                                            ;
 sudo systemctl start docker                                             ;
 while true                                                              ;
 do                                                                      \
-  sudo service docker status | grep running -q && break                 ;
+  service docker status | grep running -q && break                      ;
   sleep 10                                                              ;
 done                                                                    ;
 #########################################################################
