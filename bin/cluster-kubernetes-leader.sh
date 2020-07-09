@@ -129,4 +129,7 @@ echo FIRST IN THE MASTERS AND THEN IN THE WORKERS                       ;
 echo export token_certificate=$token_certificate                        ;
 echo export token_discovery=$token_discovery                            ;
 echo export token_token=$token_token                                    ;
+echo export ip_leader=$ip_leader                                        ;
+echo export kube=$kube                                                  ;
+echo export log=$log                                                    ;
 #########################################################################
