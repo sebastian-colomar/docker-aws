@@ -26,14 +26,14 @@ sudo mv $path/$file /etc/$repos/$file                                   ;
 rm --recursive --force $uuid                                            ;
 #########################################################################
 sudo yum install                                                        \
-	--assumeyes                                                     \
-	--disableexcludes=kubernetes                                    \
-	kubelet-1.18.4-1                                                \
-	kubeadm-1.18.4-1                                                \
-	kubectl-1.18.4-1                                                \
+        --assumeyes                                                     \
+        --disableexcludes=kubernetes                                    \
+        kubelet-1.18.4-1                                                \
+        kubeadm-1.18.4-1                                                \
+        kubectl-1.18.4-1                                                \
                                                                         ;
 sudo systemctl enable                                                   \
-	--now                                                           \
-	kubelet                                                         \
+        --now                                                           \
+        kubelet                                                         \
                                                                         ;
 #########################################################################
