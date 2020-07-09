@@ -6,10 +6,9 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-test -n "$debug"                || exit 100                             ;
-test -n "$ip_leader" 	        || exit 100                             ;
-test -n "$kube" 	        || exit 100                             ;
-test -n "$log"                  || exit 100                             ;
+ip_leader=10.168.1.100                                                  ;
+kube=kube-apiserver                                                     ;
+log=/tmp/kubernetes-install.log                              		;
 #########################################################################
 calico=https://docs.projectcalico.org/v3.14/manifests			;
 cidr=192.168.0.0/16							;
@@ -17,7 +16,7 @@ kubeconfig=/etc/kubernetes/admin.conf 					;
 #########################################################################
 while true								;
 do									\
-        systemctl							\
+        sudo systemctl							\
 		is-enabled						\
 			kubelet                               		\
 	|								\
@@ -26,8 +25,8 @@ do									\
                                                                         ;
 done									;
 #########################################################################
-echo $ip_leader $kube | tee --append /etc/hosts                        	;
-kubeadm init								\
+echo $ip_leader $kube | sudo tee --append /etc/hosts                   	;
+sudo kubeadm init							\
 	--upload-certs							\
 	--control-plane-endpoint					\
 		"$kube"							\
@@ -50,12 +49,9 @@ kubectl apply								\
 tee --append $log							\
 									;
 #########################################################################
-userID=1001								;
-USER=ssm-user								;
-HOME=/home/$USER							;
 mkdir -p $HOME/.kube							;
-cp /etc/kubernetes/admin.conf $HOME/.kube/config			;
-chown -R $userID:$userID $HOME						;
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config			;
+sudo chown -R $(id -u):$(id -g) $HOME/.kube/config			;
 echo									\
 	'source <(kubectl completion bash)'				\
 |									\
