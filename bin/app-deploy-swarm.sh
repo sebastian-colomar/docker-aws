@@ -6,44 +6,30 @@
 #########################################################################
 set +x && test "$debug" = true && set -x 				;
 #########################################################################
-test -n "$apps"			|| exit 100				;
-test -n "$branch_app"		|| exit 100				;
-test -n "$debug"		|| exit 100				;
-test -n "$domain"		|| exit 100				;
-test -n "$mode"			|| exit 100				;
-test -n "$repository_app"	|| exit 100				;
-test -n "$username_app"		|| exit 100				;
+apps="                                                                  \
+        php.yaml                                                        \
+"                                                                       ;
+branch_app=manual                                                       ;
+domain=github.com                                                       ;
+mode=swarm                                                              ;
+repository_app=docker-aws                                               ;
+username_app=secobau                                                    ;
 #########################################################################
-apps="									\
-  $(                                                   			\
-    echo								\
-      $apps                                      			\
-    |                                                               	\
-    base64                                                  		\
-      --decode                                        			\
-  )									\
-"                                                                      	;
 B=$username_app/$repository_app                                         ;
-path=etc/docker/$mode							;
-uuid=$( uuidgen )                                                       ;
+path=etc/docker/$mode                                                   ;
+uuid=/tmp/$( uuidgen )                                                  ;
 #########################################################################
 git clone                                                               \
-  --single-branch --branch $branch_app                                  \
-  https://$domain/$B                                                    \
-  $uuid                                                                 \
+        --single-branch --branch $branch_app                            \
+        https://$domain/$B                                              \
+        $uuid                                                           \
                                                                         ;
-for app in $apps							;
-do 									\
-  prefix=$( echo $app | cut --delimiter . --field 1 )			;
-  suffix=$( echo $app | cut --delimiter . --field 2 )			;
-  for name in $prefix							;
-  do									\
-    filename=$uuid/$path/$name.$suffix                                  ;
-    docker stack deploy --compose-file $filename $name 			;
-  done									;
-done									;
+for app in $apps                                                        ;
+do                                                                      \
+        sudo docker stack deploy --compose-file $uuid/$path/$app $name  ;
+done                                                                    ;
 rm --force --recursive $uuid                                            ;
 #########################################################################
-docker stack ls								;
-docker service ls							;
+sudo docker stack ls                                                    ;
+sudo docker service ls                                                  ;
 #########################################################################
