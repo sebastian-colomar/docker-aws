@@ -11,6 +11,24 @@ test -n "$log"                	|| exit 100                             ;
 test -n "$token_discovery"      || exit 100                             ;
 test -n "$token_token"          || exit 100                             ;
 #########################################################################
+compose=etc/docker/swarm/docker-compose.yaml                            ;
+uuid=/tmp/$( uuidgen )                                                  ;
+#########################################################################
+git clone                                                               \
+        --single-branch --branch v1.1                                   \
+        https://github.com/secobau/nlb                                  \
+        $uuid                                                           ;
+sed --in-place s/worker/manager/ $uuid/$compose                         ;
+sudo cp --recursive --verbose $uuid/run/* /run                          ;
+docker swarm init                                                       ;
+sudo docker stack deploy --compose-file $uuid/$compose nlb              ;
+while true                                                              ;
+do                                                                      \
+  sleep 1                                                               ;
+  sudo docker service ls | grep '\([0-9]\)/\1' && break                 ;
+done                                                                    ;
+sudo rm --recursive --force /run/secrets /run/configs                   ;
+#########################################################################
 sudo sed --in-place                                                     \
         /$kube/d                                                        \
         /etc/hosts                                                      ;
