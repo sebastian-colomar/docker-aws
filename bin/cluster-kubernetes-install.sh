@@ -22,8 +22,8 @@ git clone                                                               \
         https://github.com/secobau/docker-aws                           \
         $uuid                                                           \
                                                                         ;
-sudo mv $path/$file /etc/$repos/$file					;
-rm --recursive --force $uuid						;
+sudo mv $path/$file /etc/$repos/$file                                   ;
+rm --recursive --force $uuid                                            ;
 #########################################################################
 sudo yum install                                                        \
 	--assumeyes                                                     \
