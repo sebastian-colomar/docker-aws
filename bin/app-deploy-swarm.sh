@@ -26,7 +26,13 @@ git clone                                                               \
                                                                         ;
 for app in $apps                                                        ;
 do                                                                      \
-        sudo docker stack deploy --compose-file $uuid/$path/$app $app   ;
+        prefix=$( echo $app | cut --delimiter . --field 1 )             ;
+        suffix=$( echo $app | cut --delimiter . --field 2 )             ;
+        for name in $prefix                                             ;
+        do                                                              \
+                filename=$uuid/$path/$name.$suffix                      ;
+                sudo docker stack deploy --compose-file $filename $name ;
+        done                                                            ;
 done                                                                    ;
 rm --force --recursive $uuid                                            ;
 #########################################################################
