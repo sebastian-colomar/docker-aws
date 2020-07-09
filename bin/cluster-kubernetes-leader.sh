@@ -79,13 +79,15 @@ sudo sed --in-place                                                     \
         /localhost4/s/$/' '$kube/                                       \
         /etc/hosts                                                      ;
 #########################################################################
-command="                                                               \
-        grep --max-count 1                                              \
-                certificate-key                                         \
-                $log                                                    \
+token="                                                                 \
+        $(                                                              \
+                grep --max-count 1                                      \
+                        certificate-key                                 \
+                        $log                                            \
+        )                                                               \
 "                                                                       ;
 token_certificate=$(                                                    \
-        echo -n $command                                                \
+        echo -n $token                                                  \
         |                                                               \
         sed 's/\\/ /'                                                   \
         |                                                               \
@@ -94,13 +96,15 @@ token_certificate=$(                                                    \
                                                                         ;
 )                                                                       ;
 #########################################################################
-command="                                                               \
-        grep --max-count 1                                              \
-                discovery-token-ca-cert-hash                            \
-                $log                                                    \
+token="                                                                 \
+        $(                                                              \
+                grep --max-count 1                                      \
+                        discovery-token-ca-cert-hash                    \
+                        $log                                            \
+        )                                                               \
 "                                                                       ;
 token_discovery=$(                                                      \
-        echo -n $command                                                \
+        echo -n $token                                                  \
         |                                                               \
         sed 's/\\/ /'                                                   \
         |                                                               \
@@ -109,13 +113,15 @@ token_discovery=$(                                                      \
                                                                         ;
 )                                                                       ;
 #########################################################################
-command="                                                               \
-        grep --max-count 1                                              \
-                kubeadm.*join                                           \
-                $log                                                    \
+token="                                                                 \
+        $(                                                              \
+                grep --max-count 1                                      \
+                        kubeadm.*join                                   \
+                        $log                                            \
+        )                                                               \
 "                                                                       ;
 token_token=$(                                                          \
-        echo -n $command                                                \
+        echo -n $token                                                  \
         |                                                               \
         sed 's/\\/ /'                                                   \
         |                                                               \
