@@ -123,7 +123,7 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     
   InstanceMasterInstanceType:
-    Default: 't3a.micro'
+    Default: 't3a.small'
     Description: >
       Select Amazon EC2 instance type for the Cluster Master instances.
     Type: String
@@ -137,7 +137,7 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     
   InstanceWorkerInstanceType:
-    Default: 't3a.micro'
+    Default: 't3a.nano'
     Description: >
       Select Amazon EC2 instance type for the Cluster Worker instances.
     Type: String
