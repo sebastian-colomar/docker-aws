@@ -26,7 +26,7 @@ git clone                                                               \
                                                                         ;
 for app in $apps                                                        ;
 do                                                                      \
-        sudo docker stack deploy --compose-file $uuid/$path/$app $name  ;
+        sudo docker stack deploy --compose-file $uuid/$path/$app $app   ;
 done                                                                    ;
 rm --force --recursive $uuid                                            ;
 #########################################################################
