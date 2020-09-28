@@ -7,7 +7,7 @@
 set +x && test "$debug" = true && set -x                                ;
 #########################################################################
 apps="                                                                  \
-        php.yaml                                                        \
+        phpinfo.yaml                                                    \
 "                                                                       ;
 branch_app=manual                                                       ;
 domain=github.com                                                       ;
