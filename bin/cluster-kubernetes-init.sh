@@ -6,13 +6,13 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-test -n "$A"			|| exit 100				;
-test -n "$branch_docker_aws"	|| exit 100				;
-test -n "$debug"		|| exit 100				;
-test -n "$domain"		|| exit 100				;
-test -n "$HostedZoneName"	|| exit 100				;
-test -n "$RecordSetNameKube"	|| exit 100				;
-test -n "$stack"		|| exit 100				;
+test -n "$A"			|| exit 601				;
+test -n "$branch_docker_aws"	|| exit 602				;
+test -n "$debug"		|| exit 603				;
+test -n "$domain"		|| exit 604				;
+test -n "$HostedZoneName"	|| exit 605				;
+test -n "$RecordSetNameKube"	|| exit 606				;
+test -n "$stack"		|| exit 607				;
 #########################################################################
 export=" 								\
   export debug=$debug 							\
