@@ -6,21 +6,21 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-test -n "$A"	                && export A                 || exit 100 ;
-test -n "$branch_docker_aws"    && export branch_docker_aws || exit 100 ;
-test -n "$debug" 		&& export debug	            || exit 100	;
-test -n "$domain" 		&& export domain	    || exit 100	;
-test -n "$HostedZoneName"	&& export HostedZoneName    || exit 100 ;
-test -n "$Identifier"		&& export Identifier        || exit 100 ;
-test -n "$KeyName"              && export KeyName	    || exit 100	;
-test -n "$RecordSetName1"	&& export RecordSetName1    || exit 100 ;
-test -n "$RecordSetName2"	&& export RecordSetName2    || exit 100 ;
-test -n "$RecordSetName3"	&& export RecordSetName3    || exit 100 ;
-test -n "$RecordSetNameKube"	&& export RecordSetNameKube || exit 100 ;
-test -n "$stack"                && export stack	            || exit 100	;
-test -n "$template"		&& export template    	    || exit 100 ;
-test -n "$TypeMaster"		&& export TypeMaster 	    || exit 100 ;
-test -n "$TypeWorker"		&& export TypeWorker 	    || exit 100 ;
+test -n "$A"	                && export A                 || exit 201 ;
+test -n "$branch_docker_aws"    && export branch_docker_aws || exit 202 ;
+test -n "$debug" 		&& export debug	            || exit 203	;
+test -n "$domain" 		&& export domain	    || exit 204	;
+test -n "$HostedZoneName"	&& export HostedZoneName    || exit 205 ;
+test -n "$Identifier"		&& export Identifier        || exit 206 ;
+test -n "$KeyName"              && export KeyName	    || exit 207	;
+test -n "$RecordSetName1"	&& export RecordSetName1    || exit 208 ;
+test -n "$RecordSetName2"	&& export RecordSetName2    || exit 209 ;
+test -n "$RecordSetName3"	&& export RecordSetName3    || exit 210 ;
+test -n "$RecordSetNameKube"	&& export RecordSetNameKube || exit 211 ;
+test -n "$stack"                && export stack	            || exit 212	;
+test -n "$template"		&& export template    	    || exit 213 ;
+test -n "$TypeMaster"		&& export TypeMaster 	    || exit 214 ;
+test -n "$TypeWorker"		&& export TypeWorker 	    || exit 215 ;
 #########################################################################
 BranchDockerAWS=$branch_docker_aws					;
 caps=CAPABILITY_IAM							;
