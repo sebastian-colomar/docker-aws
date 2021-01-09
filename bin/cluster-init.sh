@@ -6,14 +6,14 @@
 #########################################################################
 set +x && test "$debug" = true && set -x				;
 #########################################################################
-test -n "$A"	                && export A                 || exit 100 ;
-test -n "$branch_docker_aws"	&& export branch_docker_aws || exit 100 ;
-test -n "$debug" 		&& export debug	            || exit 100	;
-test -n "$domain" 		&& export domain	    || exit 100	;
-test -n "$HostedZoneName"	&& export HostedZoneName    || exit 100 ;
-test -n "$RecordSetNameKube"	&& export RecordSetNameKube || exit 100 ;
-test -n "$mode"                 && export mode	            || exit 100	;
-test -n "$stack"                && export stack	            || exit 100	;
+test -n "$A"	                && export A                 || exit 301 ;
+test -n "$branch_docker_aws"	&& export branch_docker_aws || exit 302 ;
+test -n "$debug" 		&& export debug	            || exit 303	;
+test -n "$domain" 		&& export domain	    || exit 304	;
+test -n "$HostedZoneName"	&& export HostedZoneName    || exit 305 ;
+test -n "$RecordSetNameKube"	&& export RecordSetNameKube || exit 306 ;
+test -n "$mode"                 && export mode	            || exit 307	;
+test -n "$stack"                && export stack	            || exit 308	;
 #########################################################################
 file=common-functions.sh						;
 path=lib                                 				;
