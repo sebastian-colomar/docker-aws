@@ -6,19 +6,19 @@
 #########################################################################
 set +x && test "$debug" = true && set -x 				;
 #########################################################################
-test -n "$A"                    && export A                 || exit 100 ;
-test -n "$branch_docker_aws"    && export branch_docker_aws || exit 100 ;
-test -n "$domain"               && export domain            || exit 100 ;
+test -n "$A"                    && export A                 || exit 1001 ;
+test -n "$branch_docker_aws"    && export branch_docker_aws || exit 1002 ;
+test -n "$domain"               && export domain            || exit 1003 ;
 #########################################################################
-test -n "$apps"			|| exit 100				;
-test -n "$branch_app"		|| exit 100				;
-test -n "$debug"		|| exit 100				;
-test -n "$deploy_file"		|| exit 100				;
-test -n "$deploy_path"		|| exit 100				;
-test -n "$mode"			|| exit 100				;
-test -n "$repository_app"	|| exit 100				;
-test -n "$stack"		|| exit 100				;
-test -n "$username_app"		|| exit 100				;
+test -n "$apps"			|| exit 1004				;
+test -n "$branch_app"		|| exit 1005				;
+test -n "$debug"		|| exit 1006				;
+test -n "$deploy_file"		|| exit 1007				;
+test -n "$deploy_path"		|| exit 1008				;
+test -n "$mode"			|| exit 1009				;
+test -n "$repository_app"	|| exit 1010				;
+test -n "$stack"		|| exit 1011				;
+test -n "$username_app"		|| exit 1012				;
 #########################################################################
 apps=$(									\
   encode_string "$apps"							\
