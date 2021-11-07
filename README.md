@@ -4,6 +4,7 @@ You will be able to choose the orchestrator to manage your Docker cluster:
 * Swarm
 * Kubernetes.
 
+
 The cluster will be highly available (HA) with 3 masters and 3 workers evenly distributed in 3 different availability zones located in the same AWS region.
 
 You may choose deploying manually or with the help of a fully automated script:
