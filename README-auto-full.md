@@ -6,6 +6,17 @@ In order to customize the setup you should first modify the variables in these f
 * [AWS configuration](etc/conf.d/aws.conf)
 * [APP configuration](etc/conf.d/app.conf)
 
+First you need to download this repository:
+```
+dir=${HOME}/environment
+github_username=academiaonline-org
+github_repository=docker-aws
+github_branch=master
+
+git clone https://github.com/${github_username}/${github_repository} --single-branch -b ${github_branch} ${dir}/${github_repository}
+cd ${dir}/${github_repository}
+```
+
 You need to run the following commands from a terminal with enough AWS privileges:
 * [Fully automated script](bin/init-start.sh)
 
