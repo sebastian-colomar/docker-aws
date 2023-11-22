@@ -9,7 +9,7 @@ In order to customize the setup you should first modify the variables in these f
 First you need to download this repository:
 ```
 dir=${HOME}/environment
-github_username=academiaonline-org
+github_username=sebastian-colomar
 github_repository=docker-aws
 github_branch=master
 
