@@ -19,6 +19,8 @@ spec:
       -
         image: secobau/dockercoins:rng-1.6
         name: rng
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,6 +40,8 @@ spec:
       -
         image: secobau/dockercoins:hasher-1.6
         name: hasher
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,6 +65,8 @@ spec:
         - 
           name: xxx
           mountPath: /data
+        ports:
+        - containerPort: 6379
       volumes:
       - name: xxx
 ---
@@ -82,6 +88,8 @@ spec:
       -
         image: secobau/dockercoins:webui-1.6
         name: webui
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
