@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: redis
+  template:
+    metadata:
+      labels:
+        service: redis
+    spec:
+      containers:
+      -
+        image: redis
+        name: redis
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - 
+          name: xxx
+          mountPath: /data
+      volumes:
+      - name: xxx
