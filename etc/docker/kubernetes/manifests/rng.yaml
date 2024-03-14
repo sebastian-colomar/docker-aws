@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rng
+spec:
+  selector:
+    matchLabels:
+      service: rng
+  template:
+    metadata:
+      labels:
+        service: rng
+    spec:
+      containers:
+      -
+        image: secobau/dockercoins:rng-1.6
+        name: rng
