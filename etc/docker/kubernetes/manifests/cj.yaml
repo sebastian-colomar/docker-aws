@@ -6,7 +6,13 @@ spec:
   schedule: '* * * * *'
   jobTemplate:
     spec:
+      selector:
+        matchLabels:
+          app: cj
       template:
+        metadata:
+          labels:
+            app: cj
         spec:
           containers:
             - name: hello
