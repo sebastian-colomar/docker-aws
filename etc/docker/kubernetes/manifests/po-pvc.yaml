@@ -10,8 +10,8 @@ spec:
     - containerPort: 80
     volumeMounts:
     - name: xxx
-      mountPath: /data/redis/
+      mountPath: /data/nfs/
   volumes:
   - name: xxx
     persistentVolumeClaim:
-      claimName: xxx-redis-0
+      claimName: pvc-1
