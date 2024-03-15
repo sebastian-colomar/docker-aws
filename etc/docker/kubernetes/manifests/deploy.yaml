@@ -19,8 +19,7 @@ spec:
         - sh
         - -c
         args:
-        - sleep
-        - infinity
+        - sleep infinity
         volumeMounts:
         - name: vol-1
           mountPath: /nfs-data/
