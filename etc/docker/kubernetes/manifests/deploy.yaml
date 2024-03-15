@@ -23,6 +23,8 @@ spec:
         volumeMounts:
         - name: vol-1
           mountPath: /nfs-data/
+      imagePullSecrets:
+      - name: docker-registry
       volumes:
       - name: vol-1
         persistentVolumeClaim:
