@@ -14,9 +14,13 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
-        ports:
-        - containerPort: 80
+        image: buxybox
+        command:
+        - sh
+        - -c
+        args:
+        - sleep
+        - infinity
         volumeMounts:
         - name: vol-1
           mountPath: /nfs-data/
