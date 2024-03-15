@@ -8,4 +8,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: openshift-storage.nfs.csi.ceph.com
+  storageClassName: ocs-storagecluster-ceph-nfs
