@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: pvc-1
 spec:
-  storageClassName: openshift-storage.nfs.csi.ceph.com
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
+  storageClassName: openshift-storage.nfs.csi.ceph.com
