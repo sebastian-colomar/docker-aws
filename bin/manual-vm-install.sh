@@ -1,4 +1,3 @@
-```
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do apt-get remove $pkg; done
 
 mkfs /dev/$(lsblk|grep 100G|awk '{print $1}')
@@ -24,4 +23,4 @@ echo   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/doc
 apt-get update
 
 apt-get install docker-ce containerd.io docker-buildx-plugin docker-compose-plugin -y
-```
+
