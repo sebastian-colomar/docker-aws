@@ -38,5 +38,8 @@ sudo systemctl restart kubelet
 sudo kubeadm init   --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=all
 sudo mkdir -p /root/.kube
 sudo cp /etc/kubernetes/admin.conf /root/.kube/config
+sleep 1000
 sudo kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml
 sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+sudo kubectl -n kube-system scale deploy coredns --replicas=1
+
