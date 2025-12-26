@@ -62,7 +62,7 @@ Parameters:
     Type: String
     
   InstanceInstanceType:
-    Default: t4g.micro
+    Default: t4g.small
     Description: >
       Select Amazon EC2 instance type.
     Type: String
