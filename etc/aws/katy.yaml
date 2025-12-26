@@ -121,8 +121,8 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/sh
-          wget https://raw.githubusercontent.com/sebastian-colomar/docker-aws/refs/heads/master/bin/docker-kube-install.sh
-          source docker-kube-install.sh
+          wget https://raw.githubusercontent.com/sebastian-colomar/docker-aws/refs/heads/master/bin/docker-minikube-install.sh
+          source docker-minikube-install.sh
     Type: AWS::EC2::Instance
     
   InstanceProfile:
