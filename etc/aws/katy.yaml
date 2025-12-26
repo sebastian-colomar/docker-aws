@@ -124,6 +124,7 @@ Resources:
           sudo apt update
           sudo apt upgrade -y
           sudo apt install docker.io -y
+          sudo usermod -aG docker ubuntu && newgrp docker
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_arm64.deb
           sudo apt-get install ./minikube_latest_arm64.deb
     Type: AWS::EC2::Instance
