@@ -1,0 +1,220 @@
+#########################################################################
+#      Copyright (C) 2020        Sebastian Francisco Colomar Bauza      #
+#      SPDX-License-Identifier:  GPL-2.0-only                           #
+#########################################################################
+
+---
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: This template creates a new VPC and deploys a VM in AWS
+
+#============================================================
+# UI Definition
+#============================================================
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: Cluster Master Configuration
+        Parameters:
+          - InstanceImageId
+          - InstanceInstanceType
+      -
+        Label:
+          default: Network Configuration
+        Parameters:
+          - HostedZoneName
+          - RecordSetName
+          - SecurityGroupCidrIp
+          - SubnetCidrBlockPublic
+          - VPCCidrBlock
+          
+    ParameterLabels:
+      HostedZoneName:
+        default: The name of the hosted zone that you want to create records in
+      InstanceImageId:
+        default: AMI to use for Instances
+      InstanceInstanceType:
+        default: Instance Size
+      RecordSetName:
+        default: The name of the Record Set for service
+      SecurityGroupCidrIp:
+        default: Allowed CIDR for Access
+      SubnetCidrBlockPublic:
+        default: Public Subnet CIDR
+      VPCCidrBlock:
+        default: VPC CIDR
+                
+Parameters:
+    
+  HostedZoneName:
+    Default: sebastian-colomar.es
+    Description: >
+      The name of the hosted zone that you want to create records in.
+    Type: String
+
+  InstanceImageId:
+    Default: ami-027308df79a86d22c
+    Description: >
+      Select AMI to use for the instances. 
+    Type: String
+    
+  InstanceInstanceType:
+    Default: t4g.micro
+    Description: >
+      Select Amazon EC2 instance type.
+    Type: String
+    
+  RecordSetName:
+    Default: katy
+    Description: >
+      The name of the Record Set for service.
+    Type: String
+    
+  SecurityGroupCidrIp:
+    Default: 0.0.0.0/0
+    Description: >
+      Allowed CIDR block for external web access. 
+      It defines the block of IPs that can access the application servers. 
+      Set it to 0.0.0.0/0 to make it accessible from anywhere.
+    Type: String
+    
+  SubnetCidrBlockPublic:
+    Default: 10.168.2.0/24
+    Description: >
+      CIDR block for public (DMZ) subnet located in Availability Zone 1. 
+      All resources located on this subnet are provided an IP within this address block. 
+    Type: String
+    
+  VPCCidrBlock:
+    Default: 10.168.0.0/16
+    Description: >
+      CIDR block for the VPC. All the subnets and resources will have an IP within this address block.
+    Type: String
+    
+#============================================================
+# Resources
+#============================================================
+Resources:
+
+  EIP:
+    Properties:
+      Domain: vpc
+    Type: AWS::EC2::EIP
+
+  EIPAssociation:
+    Properties:
+      AllocationId: !GetAtt EIP.AllocationId
+      InstanceId: !Ref Instance
+    Type: AWS::EC2::EIPAssociation
+
+  Instance:
+    Properties:
+      IamInstanceProfile: !Ref InstanceProfile
+      ImageId: !Ref InstanceImageId
+      InstanceType: !Ref InstanceInstanceType
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      SubnetId: !Ref SubnetPublic
+    Type: AWS::EC2::Instance
+            
+  InstanceProfile:
+    Properties:
+      Roles: [!Ref Role]
+    Type: AWS::IAM::InstanceProfile
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  RecordSet:
+    Properties: 
+      ResourceRecords:
+        - !GetAtt EIP.PublicIp
+      HostedZoneName: !Sub '${HostedZoneName}.'
+      Name: !Sub '${RecordSetName}.${HostedZoneName}'
+      TTL: 60
+      Type: A
+    Type: AWS::Route53::RecordSet
+      
+  Role:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          -
+            Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+    Type: AWS::IAM::Role
+
+  RoutePublic:
+    DependsOn: [VPCGatewayAttachment]
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref RouteTablePublic
+    Type: AWS::EC2::Route
+
+  RouteTablePublic:
+    Properties:
+      VpcId: !Ref VPC
+    Type: AWS::EC2::RouteTable
+
+  SecurityGroup:
+    Properties:
+      GroupDescription: Allow access to the applications
+      SecurityGroupIngress:
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 22
+        IpProtocol: TCP
+        ToPort: 22
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 30000
+        IpProtocol: TCP
+        ToPort: 32767
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 32768
+        IpProtocol: TCP
+        ToPort: 33000
+      VpcId: !Ref VPC
+    Type: AWS::EC2::SecurityGroup   
+
+  SubnetPublic:
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: !Ref 'AWS::Region'
+      CidrBlock: !Ref SubnetCidrBlockPublic
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+    Type: AWS::EC2::Subnet
+
+  SubnetRouteTableAssociationPublic:
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      SubnetId: !Ref SubnetPublic
+    Type: AWS::EC2::SubnetRouteTableAssociation
+
+  VPC:
+    Properties:
+      CidrBlock: !Ref VPCCidrBlock
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+    Type: "AWS::EC2::VPC"
+
+  VPCGatewayAttachment:
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+    Type: AWS::EC2::VPCGatewayAttachment
