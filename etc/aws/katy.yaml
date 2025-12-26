@@ -127,10 +127,6 @@ Resources:
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_arm64.deb
           sudo apt-get install ./minikube_latest_arm64.deb
-          sudo su --login ubuntu -c 'minikube start --driver=docker'
-          sudo su --login ubuntu -c 'cat <<EOF >> ~/.bash_aliases
-          alias kubectl="minikube kubectl --"
-          EOF'
     Type: AWS::EC2::Instance
     
   InstanceProfile:
