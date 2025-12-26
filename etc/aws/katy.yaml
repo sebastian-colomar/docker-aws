@@ -161,7 +161,7 @@ Resources:
           sudo mkdir -p /root/.kube
           sudo cp /etc/kubernetes/admin.conf /root/.kube/config
           sudo kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml
-          sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-            
+          sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-
     Type: AWS::EC2::Instance
     
   InstanceProfile:
