@@ -124,6 +124,7 @@ Resources:
           sudo apt update
           sudo apt upgrade -y
           sudo apt install docker.io docker-compose -y
+          sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_arm64.deb
           sudo apt-get install ./minikube_latest_arm64.deb
