@@ -295,7 +295,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance01:
@@ -322,7 +322,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance02:
@@ -349,7 +349,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance03:
@@ -376,7 +376,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance04:
@@ -403,7 +403,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance05:
@@ -430,7 +430,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance06:
@@ -457,7 +457,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance07:
@@ -484,7 +484,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   Instance08:
@@ -511,7 +511,7 @@ Resources:
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-          sudo apt-get install ./minikube_latest_amd64.deb
+          sudo apt-get install ./minikube_latest_amd64.deb -y
     Type: AWS::EC2::Instance
 
   InstanceProfile:
