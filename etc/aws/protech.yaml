@@ -167,7 +167,7 @@ Resources:
           sudo apt install awscli docker.io docker-compose -y
           sudo docker swarm init
           sudo usermod -aG docker ubuntu
-          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_arm64.deb
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
           sudo apt-get install ./minikube_latest_arm64.deb
     Type: AWS::EC2::Instance
     
