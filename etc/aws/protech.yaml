@@ -16,12 +16,6 @@ Metadata:
                 
 Parameters:
 
-  GroupName:
-    Default: protech
-    Description: >
-      Group name.
-    Type: String
-    
   RegionName:
     Default: ap-south-1
     Description: >
@@ -35,15 +29,9 @@ Parameters:
     Type: String
     
   UserName00:
-    Default: me
+    Default: protech-me
     Description: >
       User name. 
-    Type: String
-
-  KeyName00:
-    Default: protech00
-    Description: >
-      Key name.
     Type: String
 
   PublicKeyMaterial00:
@@ -106,36 +94,10 @@ Resources:
       InstanceId: !Ref Instance00
     Type: AWS::EC2::EIPAssociation
 
-  Group:
-    Type: AWS::IAM::Group
-    Properties:
-      GroupName: !Ref GroupName
-      Path: /
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AdministratorAccess
-
-  User00:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: !Ref UserName00
-      Path: /
-
-  UserToGroupAddition00:
-    Type: AWS::IAM::UserToGroupAddition
-    Properties:
-      GroupName: !Ref Group
-      Users:
-        - !Ref User00
-
-  AccessKey00:
-    Type: AWS::IAM::AccessKey
-    Properties:
-      UserName: !Ref User00
-
   KeyPair00:
     Type: AWS::EC2::KeyPair
     Properties:
-      KeyName: !Ref KeyName00
+      KeyName: !Ref UserName00
       PublicKeyMaterial: !Ref PublicKeyMaterial00
   
   Instance00:
@@ -150,12 +112,6 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/sh
-          sudo tee /root/.aws/credentials <<EOF
-          [default]
-          aws_access_key_id = ${AccessKey00}
-          aws_secret_access_key = ${AccessKey00.SecretAccessKey}
-          EOF
-          sudo chmod 600 /root/.aws/credentials          
           sudo tee /root/.aws/config <<EOF
           [default]
           region = ${RegionName}
@@ -202,6 +158,7 @@ Resources:
                 - ec2.amazonaws.com
         Version: 2012-10-17
       ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
     Type: AWS::IAM::Role
 
