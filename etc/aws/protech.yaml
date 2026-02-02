@@ -1,0 +1,271 @@
+#########################################################################
+#      Copyright (C) 2025        Sebastian Francisco Colomar Bauza      #
+#      SPDX-License-Identifier:  GPL-2.0-only                           #
+#########################################################################
+
+---
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: This template creates a new VPC and deploys a VM in AWS
+
+#============================================================
+# UI Definition
+#============================================================
+Metadata:
+                
+Parameters:
+
+  GroupName:
+    Default: protech
+    Description: >
+      Group name.
+    Type: String
+    
+  RegionName:
+    Default: ap-south-1
+    Description: >
+      Region name.
+    Type: String
+    
+  OutputFormat:
+    Default: json
+    Description: >
+      Output format.
+    Type: String
+    
+  UserName00:
+    Default: me
+    Description: >
+      User name. 
+    Type: String
+
+  KeyName00:
+    Default: protech00
+    Description: >
+      Key name.
+    Type: String
+
+  PublicKeyMaterial00:
+    Default: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf198fe5A8wTMqYCNVaI9U7gZTi/JZX/fxIT1UGuDFyMENNlipwxWDNxFYa0t+2JGYBX3fiFuwxBhM49dp2aNcNEAXDHtwJ+h7uVYICOeWrz7JAMpVViQOJV/1nI3fplTb457alqnYPugu53rX8xNyH7oPVFKanptKfmUxttC07UNvnv9vtKeiMtYHj2SIvSzit8R93o2/EVQvUeb/2xDv0oap+1LWc1RG4aimC3H511wgWxK+FSmsAibLJbkNV8MYQ5siVHvHBpJd4qqIIBn/LgOg9GkpphIlmSfMnqBTfgpj3gElfY3cmNjr2LoR9rD7hcDqVu6R0Ej9MdmvJo+TlAepEHuXt3XB0JF/j4UwbAkZ1upKGlG0LyeBwm/t+x6cZsUQDonV2MVkBq23aD2w7yYhAnZBk4a8+bkcOvRR5flH9+EgnBpyd+1GN5Zehr+snLRW9I5tpEubx2O4RySQ8Lpozg6nnBkqRK3z677Qfln+7ZklsPgg9PblbF7plHE=
+    Description: Public SSH key
+    Type: String
+    
+  InstanceImageId:
+    Default: ami-019715e0d74f695be
+    Description: >
+      Select AMI to use for the instances. 
+    Type: String
+    
+  HostedZoneName:
+    Default: sebastian-colomar.es
+    Description: >
+      The name of the hosted zone that you want to create records in.
+    Type: String
+
+  InstanceInstanceType:
+    Default: t3a.medium
+    Description: >
+      Select Amazon EC2 instance type.
+    Type: String
+    
+  SecurityGroupCidrIp:
+    Default: 0.0.0.0/0
+    Description: >
+      Allowed CIDR block for external web access. 
+      It defines the block of IPs that can access the application servers. 
+      Set it to 0.0.0.0/0 to make it accessible from anywhere.
+    Type: String
+    
+  SubnetCidrBlockPublic:
+    Default: 10.168.2.0/24
+    Description: >
+      CIDR block for public (DMZ) subnet located in Availability Zone 1. 
+      All resources located on this subnet are provided an IP within this address block. 
+    Type: String
+    
+  VPCCidrBlock:
+    Default: 10.168.0.0/16
+    Description: >
+      CIDR block for the VPC. All the subnets and resources will have an IP within this address block.
+    Type: String
+    
+#============================================================
+# Resources
+#============================================================
+Resources:
+
+  EIP00:
+    Properties:
+      Domain: vpc
+    Type: AWS::EC2::EIP
+
+  EIPAssociation00:
+    Properties:
+      AllocationId: !GetAtt EIP00.AllocationId
+      InstanceId: !Ref Instance00
+    Type: AWS::EC2::EIPAssociation
+
+  Group:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Ref GroupName
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+  User00:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref UserName00
+      Path: /
+
+  UserToGroupAddition00:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref Group
+      Users:
+        - !Ref User00
+
+  AccessKey00:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref User00
+
+  KeyPair00:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: !Ref KeyName00
+      PublicKeyMaterial: !Ref PublicKeyMaterial00
+  
+  Instance00:
+    Properties:
+      IamInstanceProfile: !Ref InstanceProfile
+      ImageId: !Ref InstanceImageId
+      InstanceType: !Ref InstanceInstanceType
+      KeyName: !Ref KeyPair00
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      SubnetId: !Ref SubnetPublic
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/sh
+          sudo tee /root/.aws/credentials <<EOF
+          [default]
+          aws_access_key_id = ${AccessKey00}
+          aws_secret_access_key = ${AccessKey00.SecretAccessKey}
+          EOF
+          sudo chmod 600 /root/.aws/credentials          
+          sudo tee /root/.aws/config <<EOF
+          [default]
+          region = ${RegionName}
+          format = ${OutputFormat}
+          EOF
+          sudo chmod 600 /root/.aws/config          
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt install awscli docker.io docker-compose -y
+          sudo docker swarm init
+          sudo usermod -aG docker ubuntu
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_arm64.deb
+          sudo apt-get install ./minikube_latest_arm64.deb
+    Type: AWS::EC2::Instance
+    
+  RecordSet00:
+    Properties: 
+      ResourceRecords:
+        - !GetAtt EIP00.PublicIp
+      HostedZoneName: !Sub '${HostedZoneName}.'
+      Name: !Sub '${UserName00}.${HostedZoneName}'
+      TTL: 60
+      Type: A
+    Type: AWS::Route53::RecordSet
+      
+  InstanceProfile:
+    Properties:
+      Roles: [!Ref Role]
+    Type: AWS::IAM::InstanceProfile
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  Role:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          -
+            Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+    Type: AWS::IAM::Role
+
+  RoutePublic:
+    DependsOn: [VPCGatewayAttachment]
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref RouteTablePublic
+    Type: AWS::EC2::Route
+
+  RouteTablePublic:
+    Properties:
+      VpcId: !Ref VPC
+    Type: AWS::EC2::RouteTable
+
+  SecurityGroup:
+    Properties:
+      GroupDescription: Allow access to the applications
+      SecurityGroupIngress:
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 22
+        IpProtocol: TCP
+        ToPort: 22
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 30000
+        IpProtocol: TCP
+        ToPort: 32767
+      - 
+        CidrIp: !Ref SecurityGroupCidrIp
+        FromPort: 32768
+        IpProtocol: TCP
+        ToPort: 33000
+      VpcId: !Ref VPC
+    Type: AWS::EC2::SecurityGroup   
+
+  SubnetPublic:
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: !Ref 'AWS::Region'
+      CidrBlock: !Ref SubnetCidrBlockPublic
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+    Type: AWS::EC2::Subnet
+
+  SubnetRouteTableAssociationPublic:
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      SubnetId: !Ref SubnetPublic
+    Type: AWS::EC2::SubnetRouteTableAssociation
+
+  VPC:
+    Properties:
+      CidrBlock: !Ref VPCCidrBlock
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+    Type: "AWS::EC2::VPC"
+
+  VPCGatewayAttachment:
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+    Type: AWS::EC2::VPCGatewayAttachment
